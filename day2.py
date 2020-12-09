@@ -1,16 +1,18 @@
 import requests
 
 #api endpoint
-URL = "https://adventofcode.com/2020/day"
+URL = "https://adventofcode.com/2020/day/2/input"
 
-#defining params dict for the parameters to be sent to the API
-PARAMS = {'day':day, 'input':input_data}
+session = "53616c7465645f5f9a88e5bfb018935096ff5ec20a1be2a56610bb48da4880475d04861b7afc5e8e307c622e401738cc"
+
+# defining params dict for the parameters to be sent to the API
+PARAMS = {'session': session}
 
 # sending get request and saving the response as response object 
-r = requests.get(url = URL, params = PARAMS) 
+r = requests.get(url = URL, params=PARAMS)
 
-# extracting data in json format 
-data = r.json()
+# extracting data in text format 
+data = r.text
 
 print(data)
 """
