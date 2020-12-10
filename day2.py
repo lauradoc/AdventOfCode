@@ -1,20 +1,16 @@
-import requests
+# import requests
 
-#api endpoint
-URL = "https://adventofcode.com/2020/day/2/input"
+# url = "https://adventofcode.com/2020/day/2/input"
 
-session = "53616c7465645f5f9a88e5bfb018935096ff5ec20a1be2a56610bb48da4880475d04861b7afc5e8e307c622e401738cc"
+# payload={}
+# headers = {
+#   'Cookie': '_ga=GA1.2.492482864.1607448368\'_gid=GA1.2.1448719921.1607448368;session=53616c7465645f5f9a88e5bfb018935096ff5ec20a1be2a56610bb48da4880475d04861b7afc5e8e307c622e401738cc'
+# }
 
-# defining params dict for the parameters to be sent to the API
-PARAMS = {'session': session}
+# response = requests.request("GET", url, headers=headers, data=payload)
 
-# sending get request and saving the response as response object 
-r = requests.get(url = URL, params=PARAMS)
+# print(response.text)
 
-# extracting data in text format 
-data = r.text
-
-print(data)
 """
 To try to debug the problem, they have created a list (your puzzle input) of passwords (according 
 to the corrupted database) and the corporate policy when that password was set.
@@ -34,4 +30,60 @@ and highest number of times a given letter must appear for the password to be va
 2
 """
 
-# def valid_password(list):
+def valid_password():
+
+    with open('day2.txt') as f:
+        lines = f.readlines() # list containing lines of file
+
+        counter = 0
+
+        for line in lines:
+            line_list = line.strip(' ').split(' ')
+            counters = line_list[0].split('-')
+            min_val = int(counters[0])
+            max_val = int(counters[1])
+            char = line_list[1][0]
+            password = line_list[2]
+            if char in password:
+                values = password.count(char)
+                if values >= min_val and values <= max_val:
+                    counter += 1
+
+        return counter
+
+print(valid_password())
+
+"""
+Each policy actually describes two positions in the password, where 1 means the first character, 2 means the second character, and so on. (Be careful; Toboggan Corporate Policies have no concept of "index zero"!) Exactly one of these positions must contain the given letter. Other occurrences of the letter are irrelevant for the purposes of policy enforcement.
+
+Given the same example list from above:
+
+1-3 a: abcde is valid: position 1 contains a and position 3 does not.
+1-3 b: cdefg is invalid: neither position 1 nor position 3 contains b.
+2-9 c: ccccccccc is invalid: both position 2 and position 9 contain c.
+"""
+
+def valid_password2():
+            
+    with open('day2.txt') as f:
+        lines = f.readlines() # list containing lines of file
+
+        counter = 0
+
+        for line in lines:
+            line_list = line.strip(' ').split(' ')
+            counters = line_list[0].split('-')
+            min_val = int(counters[0])
+            max_val = int(counters[1])
+            char = line_list[1][0]
+            password = line_list[2]
+            if password[min_val - 1] == char and password[max_val - 1] != char:
+                counter += 1
+            elif password[min_val -1] != char and password[max_val - 1] == char:
+                counter += 1
+
+        return counter
+
+print(valid_password2())
+
+
